@@ -13,6 +13,9 @@ longDescription: >-
   caching for internet-scale applications. DynamoDB can handle more than 10
   trillion requests per day and can support peaks of more than 20 million
   requests per second.
+
+
+  Wow. Just wow.
 category: Database
 status: 5
 automationLevel: 4
