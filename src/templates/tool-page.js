@@ -1,83 +1,108 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { kebabCase } from "lodash";
-import Helmet from "react-helmet";
-import { graphql, Link } from "gatsby";
-import Layout from "../components/Layout";
-import Content, { HTMLContent } from "../components/Content";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Rating from "@material-ui/lab/Rating";
+import { Link } from "gatsby";
 
-export const BlogPostTemplate = ({
-  content,
-  contentComponent,
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  margin: {
+    margin: theme.spacing(1)
+  },
+  withoutLabel: {
+    marginTop: theme.spacing(3)
+  },
+  textField: {
+    width: 200
+  },
+  card: {
+    padding: 16,
+    height: "100%",
+    marginRight: 16,
+    justifyContent: "space-between",
+    display: "flex",
+    flexDirection: "column"
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
+  },
+  title: {
+    fontSize: 14
+  },
+  pos: {
+    marginBottom: 12
+  }
+}));
+
+export const ToolTemplate = ({
+  name,
+  category,
+  status,
+  automationLevel,
   description,
-  title,
-  helmet
+  longDescription
 }) => {
-  const PostContent = contentComponent || Content;
+  const classes = useStyles();
 
   return (
-    <section className="section">
-      {helmet || ""}
-      <div className="container content">
-        <div className="columns">
-          <div className="column is-10 is-offset-1">
-            <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
-              {title}
-            </h1>
-            <p>{description}</p>
-            <PostContent content={content} />
-          </div>
-        </div>
+    <Container maxWidth="sm" style={{ paddingTop: 48 }}>
+      <Typography variant="h4">{name}</Typography>
+      <Typography variant="h5" className={classes.pos} color="textSecondary">
+        {category}
+      </Typography>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          paddingTop: 8
+        }}
+      >
+        <Typography variant="caption" component="p" style={{ marginRight: 8 }}>
+          status
+        </Typography>
+        <Rating name="read-only" value={status} readOnly size="small" />
       </div>
-    </section>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          paddingBottom: 20
+        }}
+      >
+        <Typography variant="caption" component="p" style={{ marginRight: 8 }}>
+          automation level
+        </Typography>
+        <Rating
+          name="read-only"
+          value={automationLevel}
+          readOnly
+          size="small"
+        />
+      </div>
+
+      <Typography variant="body">{longDescription || description}</Typography>
+    </Container>
   );
 };
 
-BlogPostTemplate.propTypes = {
-  content: PropTypes.node.isRequired,
-  contentComponent: PropTypes.func,
-  description: PropTypes.string,
-  title: PropTypes.string,
-  helmet: PropTypes.object
+const Tool = ({ data }) => {
+  const { markdownRemark: tool } = data;
+
+  return <ToolTemplate {...tool.frontmatter} />;
 };
 
-const BlogPost = ({ data }) => {
-  const { markdownRemark: post } = data;
-
-  return (
-    <Layout>
-      <BlogPostTemplate
-        content={post.html}
-        contentComponent={HTMLContent}
-        description={post.frontmatter.description}
-        helmet={
-          <Helmet titleTemplate="%s | Blog">
-            <title>{`${post.frontmatter.name}`}</title>
-            <meta
-              name="description"
-              content={`${post.frontmatter.description}`}
-            />
-          </Helmet>
-        }
-        title={post.frontmatter.name}
-      />
-    </Layout>
-  );
-};
-
-BlogPost.propTypes = {
-  data: PropTypes.shape({
-    markdownRemark: PropTypes.object
-  })
-};
-
-export default BlogPost;
+export default Tool;
 
 export const pageQuery = graphql`
   query ToolByID($id: String!) {
     markdownRemark(id: { eq: $id }) {
       id
-      html
       frontmatter {
         name
         description
