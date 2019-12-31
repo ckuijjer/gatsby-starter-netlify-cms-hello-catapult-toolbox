@@ -1,6 +1,6 @@
 ---
 templateKey: tool-page
-name: '[WANTED] CMS'
+name: Netlify CMS
 description: >-
   We are looking for a serverless/SAAS CMS that can operate in a headless manner
   to power content like FAQs, privacy policies and blog posts.
