@@ -47,7 +47,7 @@ const H3 = withStyles({
 const Li = withStyles({
   body1: {}
 })(({ children, ...rest }) => (
-  <li style={{ "list-style-type": "initial", marginLeft: 16 }}>
+  <li style={{ listStyleType: "initial", marginLeft: 24 }}>
     <Typography variant="body1" {...rest} paragraph>
       {children}
     </Typography>
