@@ -326,6 +326,7 @@ export const pageQuery = graphql`
           frontmatter {
             name
             description
+            category
             status
             automationLevel
           }
