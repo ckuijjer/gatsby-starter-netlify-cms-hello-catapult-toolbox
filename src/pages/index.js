@@ -245,12 +245,12 @@ const IndexTemplate = ({ tools, footerLinks }) => {
       </Paper>
       <Container maxWidth="md" style={{ paddingTop: 64 }}>
         <Grid container spacing={4} alignItems="stretch">
-          {chunk(toolboxData, 3).map(chunk => {
+          {chunk(toolboxData, 3).map((chunk, i) => {
             return (
-              <Grid container style={{ marginBottom: 32 }}>
-                {chunk.map(toolboxEntry => {
+              <Grid container style={{ marginBottom: 32 }} key={i}>
+                {chunk.map((toolboxEntry, i) => {
                   return (
-                    <Grid item md={4}>
+                    <Grid item md={4} key={i}>
                       <ToolboxEntry data={toolboxEntry} />
                     </Grid>
                   );
@@ -268,8 +268,13 @@ const IndexTemplate = ({ tools, footerLinks }) => {
         }}
         maxWidth="sm"
       >
-        {footerLinks.map(({ title, slug }) => (
-          <Typography variant="body2" color="textSecondary" align="center">
+        {footerLinks.map(({ title, slug }, i) => (
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            align="center"
+            key={i}
+          >
             <MuiLink component={Link} to={slug} color="inherit">
               {title}
             </MuiLink>
